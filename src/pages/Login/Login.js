@@ -1,17 +1,20 @@
 import { useState } from 'react'
 import styles from './Login.module.css'
+// importamos nuestro custom hook
+import { useLogin }  from '../../hooks/useLogin';
 
 const Login = () => {
-  // Usaremos un estado para hacer un seguimiento de lo que el usuario esté tipando en los inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(''); 
-  // Definimos la función para manejar el envío del formulario
+  // Usamos nuestro custom hook
+  const {login, error, isPending} = useLogin();
+
   const handleSubmit = e => {
-    // Por ahora sólo prevendremos el comportamiento por default
     e.preventDefault();
+    // Podemos usar la función de login
+    login(email, password);
   }
   return (
-    // Nótese que no podemos usar notación de . si nuestra clase tiene - en estos casos usamos notación []
     <form onSubmit={handleSubmit}className={styles['login-form']}>
       <h2>Login</h2>
       <label>
@@ -30,7 +33,11 @@ const Login = () => {
         onChange={e => setPassword(e.target.value)} 
         />  
       </label>
-      <button className='btn'>Login</button>    
+      {/* Mostramos condicionalmente un botón */}
+      {isPending && <button disabled className='btn'>Loading...</button>}
+      {!isPending && <button className='btn'>Login</button> } 
+      {/* Si ocurre un error en el login lo mostraremos en el template */}
+      {error && <p>{error}</p>} 
     </form>
   )
 }
