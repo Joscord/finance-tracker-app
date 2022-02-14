@@ -3,6 +3,7 @@ import {
 	Switch,
 	Route,
 } from 'react-router-dom/cjs/react-router-dom.min';
+import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
@@ -11,6 +12,7 @@ const App = () => {
 	return (
 		<div className='app'>
 			<BrowserRouter>
+				<Navbar />
 				<Switch>
 					<Route exact path='/' component={Home} />
 					<Route path='/login' component={Login} />
