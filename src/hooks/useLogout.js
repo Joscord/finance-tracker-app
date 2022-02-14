@@ -1,6 +1,6 @@
 import { useAuthContext } from './useAuthContext';
 import { projectAuth } from '../firebase/config';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useLogout = () => {
 	// Crearemos una nueva pieza de estado isCancelled. El valor inicial de este estado es false. Lo que haremos será actualizar el valor de esta pieza de estado en nuestra función de cleanup.
@@ -15,16 +15,16 @@ export const useLogout = () => {
 		try {
 			await projectAuth.signOut();
 			dispatch({ type: 'LOGOUT' });
-            // Antes de actualizar los estados vamos a revisar el valor de isCancelled y nótese que hacemos lo mismo para cuadno hay error en el bloque catch
-            if (!isCancelled) {
-                setIsPending(false);
-                setError(null);
-            }
+			// Antes de actualizar los estados vamos a revisar el valor de isCancelled y nótese que hacemos lo mismo para cuadno hay error en el bloque catch
+			if (!isCancelled) {
+				setIsPending(false);
+				setError(null);
+			}
 		} catch (err) {
-            if(!isCancelled) {
-                setError(err.message);
-                setIsPending(false);
-            }
+			if (!isCancelled) {
+				setError(err.message);
+				setIsPending(false);
+			}
 		}
 	};
 
@@ -33,7 +33,7 @@ export const useLogout = () => {
 		// Lo único que haremos es retornar una función de cleanup
 		return () => {
 			// Cambiamos el estado de isCancelled a true
-			setIsCancelled(true); 
+			setIsCancelled(true);
 		};
 		// Dado que el arreglo de dependencias esta vacío esta función sólo se dispara la primera ve que se renderiza el componente
 	}, []);
