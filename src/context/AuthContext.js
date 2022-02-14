@@ -6,14 +6,14 @@ const defaultState = {
 
 export const authReducer = (state, action) => {
 	switch (action.type) {
-		// Definimos un caso para la acción de LOG_IN
 		case 'LOGIN':
 			return {
-				// Nótese que usando el spread operator buscamos copiar todas las propiedades que habría en el estado anterior, en el caso de existir más propoiedades
 				...state,
-				// El valor de la prop user será lo que venga por payload
 				user: action.payload,
 			};
+        case 'LOGOUT':
+            // Simplemente retornamos el estado inicial/por defecto donde la prop user es null
+            return defaultState;
 		default:
 			return state;
 	}
