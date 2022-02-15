@@ -17,8 +17,7 @@ export const authReducer = (state, action) => {
 			};
 		case 'LOGOUT':
 			return { ...state, user: null };
-			// Añadimos la acción de AUTH_IS_READY. Nótese que también volvemos la prop authIsReady: true para indicar que se hizo el checkeo de la autenticación
-		case 'AUTH IS READY':
+		case 'AUTH_IS_READY':
 			return { ...state, user: action.payload, authIsReady: true };
 		default:
 			return state;
