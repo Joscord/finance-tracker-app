@@ -1,6 +1,5 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-// Importamos el paqueta de autenticación
 import 'firebase/auth';
 
 const firebaseConfig = {
@@ -16,8 +15,10 @@ firebase.initializeApp(firebaseConfig);
 
 const projectFirestore = firebase.firestore();
  
-// Inicializamos el servicio de autenticación. Recordemos que esto implica obtener un objeto con diferentes métodos para manejar la autenticacion
 const projectAuth = firebase.auth();
 
-// Exportamos la autenticación
-export { projectFirestore, projectAuth }; 
+// Función para crear timestamps
+const timestamp = firebase.firestore.Timestamp
+
+// Exportamos la función de creación de timestamp
+export { projectFirestore, projectAuth, timestamp }; 
