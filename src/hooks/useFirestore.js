@@ -10,6 +10,9 @@ let initialState = {
 
 const firestoreReducer = (state, action) => {
 	switch (action.type) {
+		// Añadimos un nuevo caso
+		case 'DELETED_DOCUMENT':
+			return {isPending: false, document: null, success: true, error: null}
 		case 'ERROR':
 			return {
 				isPending: false,
@@ -49,7 +52,19 @@ export const useFirestore = collection => {
 			dispatchIfNotCancelled({ type: 'ERROR', payload: err.message });
 		}
 	};
-	const deleteDocument = async id => {};
+	const deleteDocument = async id => {
+		// Primero despacharemos una acción tipo IS_PENDING, dado que estamos iniciando un proceso de cara a la base de dato
+		dispatch({type: 'IS_PENDING'});
+		// Intentamos borrar el documento dentro de un bloque try catch
+		try {
+			// Usamos el método delete que nos retorna la referencia del documento borrado
+			const deletedDocument = await collectionRef.doc(id).delete();
+			// Usamos la función para evaluar si podemos o no actualizar los estados en base al ciclo de vida del componente
+			dispatchIfNotCancelled({type: 'DELETED_DOCUMENT'});
+		} catch (err) {
+			dispatchIfNotCancelled({type: 'ERROR', payload: err.message});
+		}
+	};
 	useEffect(() => {
 		return () => setIsCancelled(true);
 	}, []);
